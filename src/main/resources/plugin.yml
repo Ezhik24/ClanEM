@@ -1,0 +1,8 @@
+name: ClanEM
+version: '1.0'
+main: org.ezhik.clanEM.ClanEM
+api-version: '1.20'
+website: 'https://t.me/ezhichek11'
+commands:
+  clan:
+    description: 'clan'
