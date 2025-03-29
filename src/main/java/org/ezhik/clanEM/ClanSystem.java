@@ -49,7 +49,6 @@ public class ClanSystem {
         if (files != null) {
             for (File file : files) {
                 YamlConfiguration yamlConfig = YamlConfiguration.loadConfiguration(file);
-
                 String owner = yamlConfig.getString("owner");
                 List<String> members = yamlConfig.getStringList("members");
                 if (owner.equals(player.getName()) || members.contains(player.getName())) {
@@ -59,4 +58,5 @@ public class ClanSystem {
         }
         return null;
     }
+
 }
