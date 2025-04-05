@@ -34,26 +34,34 @@ public class ClanCMD implements CommandExecutor {
             case "leave":
                 break;
             case "disband":
-                player = (Player) commandSender;
-                clanSystem = ClanSystem.getClan(player);
-                if (clanSystem == null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l]&c&l У вас нету клана"));
-                    return false;
-                }
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l] &a&lВы действительно ххотите удалить клан? Введите команду: /clan disband confirm"));
-                disband.put(player.getName(),clanSystem.id);
-                if (strings[1] != null && strings[1] == "confirm") {
-                    if (!disband.containsKey(player.getName())) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l] &c&lСначала введите /clan disband"));
+                if (strings.length == 1) {
+                    player = (Player) commandSender;
+                    clanSystem = ClanSystem.getClan(player);
+                    if (clanSystem == null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l]&c&l У вас нету клана"));
                         return false;
                     }
-                    for (Map.Entry<String,Integer> entry : disband.entrySet()) {
-                        int value = entry.getValue();
-                        File file = new File("plugins/ClanEM/clans/" + value + ".yml");
-                        file.delete();
-                    }
-                    return true;
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l] &a&lВы действительно хотите удалить клан? Введите команду: /clan disband confirm"));
+                    disband.put(player.getName(),clanSystem.id);
                 }
+                if (strings.length == 2) {
+                    player = (Player) commandSender;
+                    if (disband.containsKey(player.getName())) {
+                        if (strings[1] != null && strings[1] == "confirm") {
+                            for (Map.Entry<String, Integer> entry : disband.entrySet()) {
+                                int value = entry.getValue();
+                                File file = new File("plugins/ClanEM/clans/" + value + ".yml");
+                                file.delete();
+                            }
+                            return true;
+                        }
+                    } else {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f&l[&6&lClanEM&f&l] &c&lСначала введите /clan disband"));
+                        return false;
+                    }
+                }
+
+
                 break;
             case "promote":
                 break;
@@ -110,6 +118,8 @@ public class ClanCMD implements CommandExecutor {
             case "storage":
                 break;
             default:
+                player = (Player) commandSender;
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&f&l[&6&lClanEM&f&l] &a&lВведите help,что бы увидеть весь список аргументов"));
                 break;
         }
         return true;
